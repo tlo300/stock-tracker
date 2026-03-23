@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { ClerkProvider, SignInButton, Show, UserButton } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import "./globals.css";
+
+const HUB_URL = process.env.NEXT_PUBLIC_HUB_URL ?? "https://hub-green-beta.vercel.app";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -14,11 +18,18 @@ export const metadata: Metadata = {
   description: "Track your stock portfolio",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { userId } = await auth();
+  if (userId) {
+    const user = await clerkClient().users.getUser(userId);
+    const allowedApps = (user.privateMetadata?.apps as string[]) ?? [];
+    if (!allowedApps.includes("stock-tracker")) redirect(HUB_URL);
+  }
+
   return (
     <html
       lang="en"
