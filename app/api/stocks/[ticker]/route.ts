@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/db";
 import { stocks } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export async function PATCH(
   request: NextRequest,
@@ -26,7 +26,7 @@ export async function PATCH(
       ...(notes !== undefined && { notes: notes ?? null }),
       updatedAt: new Date(),
     })
-    .where(eq(stocks.ticker, ticker.toUpperCase()))
+    .where(and(eq(stocks.userId, userId), eq(stocks.ticker, ticker.toUpperCase())))
     .returning();
 
   if (!item) {
@@ -44,6 +44,6 @@ export async function DELETE(
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { ticker } = await ctx.params;
-  await db.delete(stocks).where(eq(stocks.ticker, ticker.toUpperCase()));
+  await db.delete(stocks).where(and(eq(stocks.userId, userId), eq(stocks.ticker, ticker.toUpperCase())));
   return new Response(null, { status: 204 });
 }

@@ -2,7 +2,8 @@ import { pgTable, serial, text, numeric, timestamp } from "drizzle-orm/pg-core";
 
 export const stocks = pgTable("stocks", {
   id: serial("id").primaryKey(),
-  ticker: text("ticker").notNull().unique(),
+  userId: text("user_id").notNull(),
+  ticker: text("ticker").notNull(),
   name: text("name").notNull(),
   shares: numeric("shares", { precision: 14, scale: 6 }).notNull(),
   purchasePrice: numeric("purchase_price", { precision: 14, scale: 4 }).notNull(),
