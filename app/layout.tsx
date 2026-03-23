@@ -25,7 +25,8 @@ export default async function RootLayout({
 }>) {
   const { userId } = await auth();
   if (userId) {
-    const user = await clerkClient().users.getUser(userId);
+    const client = await clerkClient();
+    const user = await client.users.getUser(userId);
     const allowedApps = (user.privateMetadata?.apps as string[]) ?? [];
     if (!allowedApps.includes("stock-tracker")) redirect(HUB_URL);
   }
