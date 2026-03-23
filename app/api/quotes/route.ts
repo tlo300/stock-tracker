@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 export interface QuoteResult {
   ticker: string;
@@ -10,6 +11,9 @@ export interface QuoteResult {
 }
 
 export async function GET(request: Request) {
+  const { userId } = await auth();
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { searchParams } = new URL(request.url);
   const tickers = searchParams.get("tickers");
 

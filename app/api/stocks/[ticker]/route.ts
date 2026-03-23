@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "@/db";
 import { stocks } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -8,6 +9,9 @@ export async function PATCH(
   request: NextRequest,
   ctx: RouteContext<"/api/stocks/[ticker]">
 ) {
+  const { userId } = await auth();
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { ticker } = await ctx.params;
   const body = await request.json();
   const { shares, purchasePrice, purchaseDate, notes, name } = body;
@@ -36,6 +40,9 @@ export async function DELETE(
   _req: NextRequest,
   ctx: RouteContext<"/api/stocks/[ticker]">
 ) {
+  const { userId } = await auth();
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { ticker } = await ctx.params;
   await db.delete(stocks).where(eq(stocks.ticker, ticker.toUpperCase()));
   return new Response(null, { status: 204 });
