@@ -97,21 +97,21 @@ export default function StockTrackerApp() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen text-gray-400">
+      <div className="flex items-center justify-center min-h-screen text-[#666]">
         Loading…
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-foreground">
+    <div className="min-h-screen bg-black text-foreground">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 py-4">
+      <header className="bg-black border-b border-[#333] px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <a
               href={process.env.NEXT_PUBLIC_VERCEL_URL ? "https://hub-green-beta.vercel.app" : "http://localhost:3000"}
-              className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors shrink-0"
+              className="text-[#666] hover:text-white transition-colors shrink-0"
               title="Back to Hub"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -119,15 +119,15 @@ export default function StockTrackerApp() {
               </svg>
             </a>
             <div>
-              <h1 className="text-xl font-bold tracking-tight">Stock Tracker</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <h1 className="text-xl font-semibold tracking-tight text-white">Stock Tracker</h1>
+              <p className="text-sm text-[#666]">
                 {stocks.length} position{stocks.length !== 1 ? "s" : ""}
               </p>
             </div>
           </div>
           <button
             onClick={() => setShowModal(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            className="bg-white hover:bg-white/90 text-black px-4 py-2 rounded-lg text-sm font-medium transition-colors"
           >
             + Add Stock
           </button>
@@ -138,12 +138,12 @@ export default function StockTrackerApp() {
         {/* Portfolio Summary */}
         {stocks.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Total Invested</p>
+            <div className="bg-[#111] border border-[#333] rounded-xl p-5">
+              <p className="text-sm text-[#666]">Total Invested</p>
               <p className="text-2xl font-bold mt-1">{fmtCurrency(totalCost)}</p>
             </div>
-            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="bg-[#111] border border-[#333] rounded-xl p-5">
+              <p className="text-sm text-[#666]">
                 Portfolio Value{" "}
                 {refreshingQuotes && (
                   <span className="text-xs text-gray-400 dark:text-gray-600">updating…</span>
@@ -153,8 +153,8 @@ export default function StockTrackerApp() {
                 {hasQuotes ? fmtCurrency(totalValue) : "—"}
               </p>
             </div>
-            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Total Gain / Loss</p>
+            <div className="bg-[#111] border border-[#333] rounded-xl p-5">
+              <p className="text-sm text-[#666]">Total Gain / Loss</p>
               <p
                 className={`text-2xl font-bold mt-1 ${
                   totalGain === null
@@ -176,15 +176,15 @@ export default function StockTrackerApp() {
         {stocks.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
             <p className="text-4xl">📈</p>
-            <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+            <p className="text-lg font-semibold text-white">
               No positions yet
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-[#666]">
               Add your first stock to start tracking your portfolio.
             </p>
             <button
               onClick={() => setShowModal(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
+              className="bg-white hover:bg-white/90 text-black px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
             >
               + Add Stock
             </button>
@@ -208,7 +208,7 @@ export default function StockTrackerApp() {
             <button
               onClick={() => loadQuotes(stocks)}
               disabled={refreshingQuotes}
-              className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 disabled:opacity-50 transition-colors"
+              className="text-sm text-[#666] hover:text-white disabled:opacity-50 transition-colors"
             >
               {refreshingQuotes ? "Refreshing prices…" : "↻ Refresh prices"}
             </button>
